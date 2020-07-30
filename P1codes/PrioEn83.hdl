@@ -1,0 +1,49 @@
+/**Author: Quy Dao
+ * Date: 07/09/2020
+ * Email: quydao1462@tamu.edu
+ * CSCE 312
+ */
+ 
+ /**
+ * 8 to 3 priority encoder
+ */
+ 
+CHIP PrioEn83 {
+	IN a[8];
+	OUT out[3], idle;
+	
+
+	PARTS:
+	Or8Way(in=a, out=o);
+	Not(in = o, out = idle);
+	
+
+	// First bit output logic 
+	Or(a=a[7], b=a[6], out=Or76);
+	Or(a=a[5], b=a[4], out=Or54);
+	Or(a=Or76, b=Or54, out=out[2]);
+
+	// Second bit output logic
+	Or(a=a[3], b=a[2], out=Or32);
+	Nor(a=a[5], b=a[4], out=Nor54);
+	And(a=Or32, b=Nor54, out=AndOr32Nor54);
+	Or(a=Or76, b=AndOr32Nor54, out=out[1]);
+
+	// Third bit output logic
+	// priority bit 5
+	Not(in=a[6], out=Not6);
+	And(a=a[5], b=Not6, out=And5N6);
+	// priority bit 3
+	Not(in=a[4], out=Not4);
+	And(a=a[3], b=Not4, out=And3N4);
+	And(a=And3N4, b=Not6, out=And3N46);
+	//Priority bit 1
+	Not(in=a[2], out=Not2);
+	And(a=a[1], b=Not2, out=And1N2);
+	And(a=And1N2, b=Not4, out=And1N24);
+	And(a=And1N24, b=Not6, out=And1N246);
+	//Priority bit 7
+	Or(a=a[7], b=And5N6, out=Out0Or1);
+	Or(a=Out0Or1, b=And3N46, out=Out0Or2);
+	Or(a=Out0Or2, b=And1N246, out=out[0]);
+}
