@@ -1,0 +1,40 @@
+//NAME AND UIN
+ /**Author: Quy Dao
+	UIN: 427007909
+ * Date: 07/13/2020
+ * Email: quydao1462@tamu.edu
+ * CSCE 312
+ */
+/**
+ * Memory of 512 registers, each 16 bit-wide. Out holds the value
+ * stored at the memory location specified by address. If load==1, then 
+ * the in value is loaded into the memory location specified by address 
+ * (the loaded value will be emitted to out from the next time step onward).
+ */
+ 
+// CREATE THE RAM 512 using RAM64 Modules
+
+CHIP RAM512 {
+    IN in[16], load, address[9];
+    OUT out[16];
+
+    PARTS:
+    DMux(in=load, sel=address[8], a=load1, b=load2);
+	DMux4Way(in=load1, sel[0]=address[6], sel[1]=address[7], a=in0, b=in1, c=in2, d=in3);
+	DMux4Way(in=load2, sel[0]=address[6], sel[1]=address[7], a=in4, b=in5, c=in6, d=in7);
+	
+	/// Utilize RAM64 to creat RAM512
+	RAM64(in=in, load=in0,address = address[0..5], out=out0);
+	RAM64(in=in, load=in1,address = address[0..5], out=out1);
+	RAM64(in=in, load=in2,address = address[0..5], out=out2);
+	RAM64(in=in, load=in3,address = address[0..5], out=out3);
+	RAM64(in=in, load=in4,address = address[0..5], out=out4);
+	RAM64(in=in, load=in5,address = address[0..5], out=out5);
+	RAM64(in=in, load=in6,address = address[0..5], out=out6);
+	RAM64(in=in, load=in7,address = address[0..5], out=out7);
+	
+	//Select output memory
+	Mux4Way16(a=out0, b=out1, c=out2, d=out3, sel[0]=address[6], sel[1]=address[7], out=f1);
+	Mux4Way16(a=out4, b=out5, c=out6, d=out7, sel[0]=address[6], sel[1]=address[7], out=f2);
+	Mux16(a=f1, b=f2, sel=address[8], out=out);
+}

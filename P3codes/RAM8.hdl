@@ -1,0 +1,39 @@
+// NAME AND UIN
+ /**Author: Quy Dao
+	UIN: 427007909
+ * Date: 07/13/2020
+ * Email: quydao1462@tamu.edu
+ * CSCE 312
+ */
+/**
+ * Memory of 8 registers, each 16 bit-wide. Out holds the value
+ * stored at the memory location specified by address. If load==1, then 
+ * the in value is loaded into the memory location specified by address 
+ * (the loaded value will be emitted to out from the next time step onward).
+ */
+
+CHIP RAM8 {
+    IN in[16], load, address[3];
+    OUT out[16];
+
+    PARTS:
+    
+	DMux(in=load, sel=address[2], a=load1, b=load2);
+	DMux4Way(in=load1, sel[0]=address[0], sel[1]=address[1], a=in0, b=in1, c=in2, d=in3);
+	DMux4Way(in=load2, sel[0]=address[0], sel[1]=address[1], a=in4, b=in5, c=in6, d=in7);
+	
+	
+	Register(in=in, load=in0, out=out0);
+	Register(in=in, load=in1, out=out1);
+	Register(in=in, load=in2, out=out2);
+	Register(in=in, load=in3, out=out3);
+	Register(in=in, load=in4, out=out4);
+	Register(in=in, load=in5, out=out5);
+	Register(in=in, load=in6, out=out6);
+	Register(in=in, load=in7, out=out7);
+	
+	
+	Mux4Way16(a=out0, b=out1, c=out2, d=out3, sel[0]=address[0], sel[1]=address[1], out=f1);
+	Mux4Way16(a=out4, b=out5, c=out6, d=out7, sel[0]=address[0], sel[1]=address[1], out=f2);
+	Mux16(a=f1, b=f2, sel=address[2], out=out);
+}
