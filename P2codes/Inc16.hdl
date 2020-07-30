@@ -1,0 +1,21 @@
+ /**Author: Quy Dao
+	UIN: 427007909
+ * Date: 07/13/2020
+ * Email: quydao1462@tamu.edu
+ * CSCE 312
+ */
+//Inc16.hdl
+
+/**
+ * 16-bit incrementer:
+ * out = in + 1 (arithmetic addition)
+ */
+
+CHIP Inc16 {
+    IN in[16];
+    OUT out[16];
+
+    PARTS:
+	Add16(a = in, b[0] = true, b[1..15] =false, out = out);
+
+}

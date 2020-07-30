@@ -1,0 +1,22 @@
+//Name and UIN
+ /**Author: Quy Dao
+	UIN: 427007909
+ * Date: 07/13/2020
+ * Email: quydao1462@tamu.edu
+ * CSCE 312
+ */
+//Negation.hdl
+
+/**
+ * Negate a 16-bit number, be aware that first bit is the sign-bit. 
+ * 2’s complement of the input 
+ */
+
+CHIP Negation {
+    IN in[16];
+    OUT out[16];
+
+    PARTS:
+	Not16(in = in, out = out1);
+	Inc16(in = out1, out = out);
+}

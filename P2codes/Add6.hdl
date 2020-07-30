@@ -1,0 +1,25 @@
+ /**Author: Quy Dao
+	UIN: 427007909
+ * Date: 07/13/2020
+ * Email: quydao1462@tamu.edu
+ * CSCE 312
+ */
+/**
+ * Adds two 6-bit values. Construct your adder using 4-bit RCA only. 
+ */
+
+CHIP Add6 {
+    IN a[6], b[6], carryIn;
+    OUT out[6],carry;
+
+    PARTS:
+	// used to set bit 5 and 6 in second adder4 to zero
+	Not(in = a[0], out = na0);
+	And(a= na0, b = a[0], out = zero);
+	
+	//Add the first 4 bit
+	Add4(a=a[0..3], b=b[0..3], carryIn=zero, out=out[0..3], carry=cout1);
+	//Add the 2 bit and the last two bits are zero
+	Add4(a[0..1]=a[4..5], b[0..1]=b[4..5],a[2] = zero, a[3] = zero, b[2] = zero, b[3] = zero, carryIn=cout1, out[0..1]=out[4..5], out[2] = carry);
+
+}

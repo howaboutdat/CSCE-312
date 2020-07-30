@@ -1,0 +1,34 @@
+//Name and UIN
+// Name and UIN
+ /**Author: Quy Dao
+	UIN: 427007909
+ * Date: 07/13/2020
+ * Email: quydao1462@tamu.edu
+ * CSCE 312
+ */
+//LeftLogicBitshift.hdl
+
+/**
+ * Shift x left by y bits, new bits are filled in with 0
+ * You may assume the maximum shift is 8 bits (in other words, y is in the binary range 0000000000000000 to 0000000000001000)
+ */
+
+CHIP LeftLogicBitshift {
+    IN x[16], y[16];
+    OUT out[16];
+
+    PARTS:
+   // Shift by 1 bit
+   Mux16(a= x, b[0] = false, b[1..15] = x[0..14],  sel = y[0], out = aout);
+   //Shift by 2 bit
+   Mux16(a= aout, b[0..1] = false, b[2..15] = x[0..13],  sel = y[1], out = bout);
+   //Shift by 4 bit
+   Mux16(a= bout, b[0..3] = false, b[4..15] = x[0..11],  sel = y[2], out = cout);
+   //Shift by 8 bit
+   Mux16(a= cout, b[0..7] = false, b[8..15] = x[0..7],  sel = y[3], out = dout);
+   //Shift by 16
+   Mux16(a= dout, b = false,  sel = y[4], out = out);
+
+
+
+}

@@ -1,0 +1,26 @@
+// Name and UIN
+ /**Author: Quy Dao
+	UIN: 427007909
+ * Date: 07/13/2020
+ * Email: quydao1462@tamu.edu
+ * CSCE 312
+ */
+/**
+ * Adds or Subtracts two 4-bit values.
+ * You may have to implement some chips or additional logic to get all of the pieces you need
+ */
+
+CHIP AddSub4 {
+    IN a[4], b[4], sub;
+    OUT out[4],carry;
+
+    PARTS:
+	//get two complement of b
+    Negation(in[0..3]=b, out[0..3]=negB);
+	// chose wether to add or subject to decide where to use b or b's complemence
+	Mux16(a[0..3] = b, b[0..3] = negB, sel = sub, out[0..3] = bin);
+	//add or subtract
+	Add4(a = a, b = bin, out = out, carry = carry);
+	
+
+}
