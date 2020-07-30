@@ -1,0 +1,26 @@
+ /**Author: Quy Dao
+ * Date: 07/09/2020
+ * Email: quydao1462@tamu.edu
+ * CSCE 312
+ */
+
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/And.hdl
+
+/**
+ * And gate: 
+ * out = 1 if (a == 1 and b == 1)
+ *       0 otherwise
+ */
+
+CHIP And {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+    Not(in=a, out = aout);
+	Not(in=b, out = bout);
+	Nor(a=aout,b=bout, out= out);
+}
